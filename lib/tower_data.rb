@@ -22,12 +22,19 @@ module TowerData
     raise MustProvideTokenError, "TowerData requires a token to use the API" unless config.token
   end
 
+  # Follow up the default HTTParty get request with check against API errors
+  #
+  # Arguments:
+  #   path: (String)
+  #   options: (Hash)
   def self.get(path, options, &block)
     response = super(path, options, &block)
 
     #puts response
 
     success_codes = [200, 10, 20, 30, 40, 45, 50]
+
+    # response['status_code'] is the code for the whol request, not the individual search(es)
     if response['status_code'].nil? || !success_codes.include?(response['status_code'])
       raise BadConnectionToAPIError
     elsif response['status_code'] == 200 && response['status_desc'] =~ /Not authorized/
@@ -37,6 +44,10 @@ module TowerData
     response
   end
 
+  # Submit a request with an email address, return a TowerData::Email object
+  #
+  # Arguments:
+  #   address: (String)
   def self.validate_email(address)
     opts = {
       headers: @config.headers,
@@ -50,6 +61,10 @@ module TowerData
     Email.new(response)
   end
 
+  # Submit a request with a phone number, return a TowerData::Phone object
+  #
+  # Arguments:
+  #   number: (String)
   def self.validate_phone(number)
     opts = {
       headers: @config.headers,
@@ -63,9 +78,14 @@ module TowerData
     Phone.new(response)
   end
 
+  # A wrapper to the response from an email search request
   class Email
     attr_accessor :ok, :validation_level, :status_code, :status_desc, :address, :username, :domain
 
+    # Create a new TowerData::Email
+    #
+    # Arguments:
+    #   fields: (HTTParty::Response)
     def initialize(fields)
       fields = fields['email']
       @ok = fields['ok']
@@ -77,21 +97,18 @@ module TowerData
       @domain = fields['domain']
       @timeout = @status_code == 5
     end
-
-    def valid?
-      case @status_code
-      when 10, 20, 30, 40, 50
-        true
-      else
-        false
-      end
-    end
   end
 
+  # A wrapper to the response from a phone search request
   class Phone
     attr_accessor :ok, :status_code, :status_desc, :number, :extension, :city, :state, :new_npa, \
       :country, :county, :latitute, :longitude, :timezone, :observes_dst, :messages, :line_type, \
       :carrier
+
+    # Create a new TowerData::Phone
+    #
+    # Arguments:
+    #   fields: (HTTParty::Response)
     def initialize(fields)
       #puts fields
       fields = fields['phone']
@@ -116,9 +133,15 @@ module TowerData
     end
   end
 
+  # Stores config values used in making API calls
   class Config
-
     attr_accessor :token, :headers
+
+    # Create a new TowerData::Config. MUST provide a valid API token
+    #
+    # Arguments:
+    #   token: (String)
+    #   headers: (Hash)
     def initialize(token = nil, headers = { 'Content-Type' => 'application/json' })
       @token = token
       @headers = headers
