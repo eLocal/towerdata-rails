@@ -31,8 +31,9 @@ describe "TowerData::Validators" do
       it 'reports possible corrections by default' do
         VCR.use_cassette('correction_default') do
           m = EmailTestModel.new
-          m.email = 'john;doe@example.com'
+          m.email = 'john.doe@gmial.com'
           m.should_not be_valid
+          m.errors.messages[:email].count.should be 2
         end
       end
 
@@ -43,8 +44,9 @@ describe "TowerData::Validators" do
 
         VCR.use_cassette('correction_no_show') do
           m = EmailTestModel.new
-          m.email = 'john;doe@example.com'
+          m.email = 'john.doe@gmial.com'
           m.should_not be_valid
+          m.errors.messages[:email].count.should be 1
         end
       end
 

@@ -57,10 +57,6 @@ describe "TowerData" do
         end
       end
     end
-
-    context 'correctable' do
-      it 'provides the original value and the suggested correction'
-    end
   end
 
   context 'phone number' do
