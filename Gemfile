@@ -11,6 +11,8 @@ group :development do
   gem 'guard-bundler'
   gem 'rspec-rails'
   gem 'vcr'
+  gem 'webmock'
   gem 'factory_girl'
   gem 'faker'
+  gem 'interactive_editor'
 end

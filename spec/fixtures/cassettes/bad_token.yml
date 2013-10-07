@@ -1,0 +1,31 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api10.towerdata.com/person?email=email@address.com&license=bad_token
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Server:
+      - TowerData/1.0
+      Date:
+      - Mon, 07 Oct 2013 15:21:28 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '90'
+    body:
+      encoding: US-ASCII
+      string: ! "{\n \"status_code\":200,\n \"status_desc\":\"Not authorized for one
+        or more services requested\"\n}"
+    http_version: 
+  recorded_at: Mon, 07 Oct 2013 15:21:27 GMT
+recorded_with: VCR 2.5.0

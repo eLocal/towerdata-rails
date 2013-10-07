@@ -17,22 +17,24 @@ module TowerData
     @config = new_conf
   end
 
+  def self.configure
+    yield config if block_given?
+    raise MustProvideTokenError, "TowerData requires a token to use the API" unless config.token
+  end
+
   def self.get(path, options, &block)
     response = super(path, options, &block)
 
-    if response['status_code'].nil? || response['status_code'] != 200
+    #puts response
+
+    success_codes = [200, 10, 20, 30, 40, 45, 50]
+    if response['status_code'].nil? || !success_codes.include?(response['status_code'])
       raise BadConnectionToAPIError
     elsif response['status_code'] == 200 && response['status_desc'] =~ /Not authorized/
       raise TokenInvalidError
     end
 
     response
-  end
-
-
-  def self.configure
-    yield config if block_given?
-    raise MustProvideTokenError, "TowerData requires a token to use the API" unless config.token
   end
 
   def self.validate_email(address)
@@ -87,9 +89,30 @@ module TowerData
   end
 
   class Phone
+    attr_accessor :ok, :status_code, :status_desc, :number, :extension, :city, :state, :new_npa, \
+      :country, :county, :latitute, :longitude, :timezone, :observes_dst, :messages, :line_type, \
+      :carrier
     def initialize(fields)
+      #puts fields
       fields = fields['phone']
 
+      @ok = fields['ok']
+      @status_code = fields['status_code']
+      @status_desc = fields['status_desc']
+      @number = fields['number']
+      @extension = fields['extension']
+      @city = fields['city']
+      @state = fields['state']
+      @new_npa = fields['new_npa']
+      @country = fields['country']
+      @county = fields['county']
+      @latitute = fields['latitute']
+      @longitude = fields['longitude']
+      @timezone = fields['timezone']
+      @observes_dst = fields['observes_dst']
+      @messages = fields['messages']
+      @line_type = fields['line_type']
+      @carrier = fields['carrier']
     end
   end
 
