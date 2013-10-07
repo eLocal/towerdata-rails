@@ -1,11 +1,7 @@
+# encoding: UTF-8
 require 'spec_helper'
 
 include TowerData
-
-VCR.configure do |c|
-  c.cassette_library_dir = 'spec/fixtures/cassettes'
-  c.hook_into :webmock
-end
 
 describe "TowerData" do
 
@@ -34,7 +30,6 @@ describe "TowerData" do
       }.to raise_error(MustProvideTokenError)
     end
   end
-
 
   context 'email address' do
     before(:each) do
@@ -93,10 +88,6 @@ describe "TowerData" do
           p.ok.should be false
         end
       end
-    end
-
-    context 'correctable' do
-
     end
   end
 end

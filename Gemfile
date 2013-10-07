@@ -4,12 +4,14 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'httparty'
+gem 'activerecord'
+gem 'protected_attributes'
 
 group :development do
   gem 'guard'
   gem 'guard-rspec'
   gem 'guard-bundler'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 2.14.0'
   gem 'vcr'
   gem 'webmock'
   gem 'factory_girl'
