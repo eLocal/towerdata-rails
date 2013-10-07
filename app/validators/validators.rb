@@ -2,7 +2,7 @@ module TowerData
   class EmailValidator < ActiveModel::EachValidator
     def validate_each(record, attribute, value)
       e = TowerData.validate_email(value)
-      unless e.valid?
+      unless e.ok
         record.errors[attribute] << "Did not pass TowerData validation: #{e.status_desc}"
       end
     end
@@ -11,7 +11,7 @@ module TowerData
   class PhoneValidator < ActiveModel::EachValidator
     def validate_each(record, attribute, value)
       p = TowerData.validate_phone(value)
-      unless p.valid?
+      unless p.ok
         record.errors[attribute] << "Did not pass TowerData validation: #{p.status_desc}"
       end
     end

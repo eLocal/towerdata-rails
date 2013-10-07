@@ -1,0 +1,60 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api10.towerdata.com/person?email=&license=McqFUiR5a9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - TowerData/1.0
+      Date:
+      - Mon, 07 Oct 2013 18:33:03 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '184'
+    body:
+      encoding: US-ASCII
+      string: ! '{"email":{"ok":false,"validation_level":2,"status_code":100,"status_desc":"General
+        syntax error","address":null,"username":null,"domain":null},"status_code":10,"status_desc":"Success"}'
+    http_version: 
+  recorded_at: Mon, 07 Oct 2013 18:33:02 GMT
+- request:
+    method: get
+    uri: http://api10.towerdata.com/person?license=McqFUiR5a9&phone=888-227-8255
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - TowerData/1.0
+      Date:
+      - Mon, 07 Oct 2013 18:33:04 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '384'
+    body:
+      encoding: US-ASCII
+      string: ! '{"phone":{"ok":true,"status_code":10,"status_desc":"Valid area code
+        and exchange","number":"8882278255","extension":null,"city":null,"state":null,"new_npa":null,"country":null,"county":null,"latitude":null,"longitude":null,"timezone":null,"observes_dst":null,"messages":[{"code":150,"desc":"Toll
+        free number"}],"line_type":"T","carrier":null},"status_code":10,"status_desc":"Success"}'
+    http_version: 
+  recorded_at: Mon, 07 Oct 2013 18:33:02 GMT
+recorded_with: VCR 2.5.0
