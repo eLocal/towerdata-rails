@@ -7,7 +7,7 @@ describe "TowerData::Validators" do
   context 'EmailValidator' do
     before(:each) do
       TowerData.configure do |c|
-        c.token = 'McqFUiR5a9'
+        c.token = 'XXXXXXXXXX'
       end
     end
 
@@ -24,6 +24,40 @@ describe "TowerData::Validators" do
         m = EmailTestModel.new
         m.email = 'andrew.fallows@elocal.com'
         m.should be_valid
+      end
+    end
+
+    context 'corrections' do
+      it 'reports possible corrections by default' do
+        VCR.use_cassette('correction_default') do
+          m = EmailTestModel.new
+          m.email = 'john;doe@example.com'
+          m.should_not be_valid
+        end
+      end
+
+      it 'hides correction report if show_corrections is false' do
+        TowerData.configure do |c|
+          c.show_corrections = false
+        end
+
+        VCR.use_cassette('correction_no_show') do
+          m = EmailTestModel.new
+          m.email = 'john;doe@example.com'
+          m.should_not be_valid
+        end
+      end
+
+      it 'accepts a correction if auto_accept_corrections is true' do
+        TowerData.configure do |c|
+          c.auto_accept_corrections = true
+        end
+
+        VCR.use_cassette('correction_auto_accept') do
+          m = EmailTestModel.new
+          m.email = 'john.doe@gmial.com'
+          m.should be_valid
+        end
       end
     end
   end

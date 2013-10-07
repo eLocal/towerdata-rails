@@ -1,0 +1,31 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api10.towerdata.com/person?correct=email&email=john.doe@gmial.com&license=XXXXXXXXXX
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - TowerData/1.0
+      Date:
+      - Mon, 07 Oct 2013 19:44:08 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '257'
+    body:
+      encoding: US-ASCII
+      string: ! '{"email":{"corrections":["john.doe@gmail.com"],"ok":false,"validation_level":2,"status_code":325,"status_desc":"Domain
+        cannot receive email","address":"john.doe@gmial.com","username":"john.doe","domain":"gmial.com"},"status_code":10,"status_desc":"Success"}'
+    http_version: 
+  recorded_at: Mon, 07 Oct 2013 19:44:05 GMT
+recorded_with: VCR 2.5.0

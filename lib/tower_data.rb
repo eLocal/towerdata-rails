@@ -30,8 +30,6 @@ module TowerData
   def self.get(path, options, &block)
     response = super(path, options, &block)
 
-    #puts response
-
     success_codes = [200, 10, 20, 30, 40, 45, 50]
 
     # response['status_code'] is the code for the whol request, not the individual search(es)
@@ -53,6 +51,7 @@ module TowerData
       headers: @config.headers,
       query: {
         license: @config.token,
+        correct: 'email',
         email: address
       }
     }
@@ -80,7 +79,8 @@ module TowerData
 
   # A wrapper to the response from an email search request
   class Email
-    attr_accessor :ok, :validation_level, :status_code, :status_desc, :address, :username, :domain
+    attr_accessor :ok, :validation_level, :status_code, :status_desc, :address, :username, :domain, \
+      :corrections
 
     # Create a new TowerData::Email
     #
@@ -96,6 +96,7 @@ module TowerData
       @username = fields['username']
       @domain = fields['domain']
       @timeout = @status_code == 5
+      @corrections = fields['corrections']
     end
   end
 
@@ -110,7 +111,6 @@ module TowerData
     # Arguments:
     #   fields: (HTTParty::Response)
     def initialize(fields)
-      #puts fields
       fields = fields['phone']
 
       @ok = fields['ok']
@@ -135,7 +135,7 @@ module TowerData
 
   # Stores config values used in making API calls
   class Config
-    attr_accessor :token, :headers
+    attr_accessor :token, :headers, :show_corrections, :auto_accept_corrections
 
     # Create a new TowerData::Config. MUST provide a valid API token
     #
@@ -145,6 +145,8 @@ module TowerData
     def initialize(token = nil, headers = { 'Content-Type' => 'application/json' })
       @token = token
       @headers = headers
+      @show_corrections = true
+      @auto_accept_corrections = false
     end
   end
 end
