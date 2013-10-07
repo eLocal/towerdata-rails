@@ -1,5 +1,3 @@
-module Towerdata
-  module Rails
-    VERSION = "0.0.1"
-  end
+module TowerData
+  VERSION = "0.0.1"
 end

@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Towerdata::Rails::VERSION
   spec.authors       = ["Andrew Fallows"]
   spec.email         = ["andrew.fallows@elocal.com"]
-  spec.description   = %q{Ruby wrapped for TowerData API}
-  spec.summary       = %q{Ruby wrapped for TowerData API}
-  spec.homepage      = ""
+  spec.description   = %q{Provides methods for invoking the TowerData REST API, as well as ActiveModel validators which use TowerData to verify email address and phone number}
+  spec.summary       = %q{Ruby wrapper for TowerData API}
+  spec.homepage      = "www.elocal.com"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
