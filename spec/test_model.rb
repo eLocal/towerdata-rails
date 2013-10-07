@@ -1,7 +1,8 @@
+require 'tower_data/validators'
 class EmailTestModel
   include ActiveModel::Model
   include ActiveModel::Validations
-  include TowerData
+  include TowerData::Validators
 
   attr_accessor :email
 
@@ -11,7 +12,7 @@ end
 class PhoneTestModel
   include ActiveModel::Model
   include ActiveModel::Validations
-  include TowerData
+  include TowerData::Validators
 
   attr_accessor :phone
 

@@ -1,8 +1,8 @@
+require 'bundler'
+Bundler.require(:default)
+
 require 'vcr'
-require 'active_record'
-require 'protected_attributes'
-require './lib/tower_data.rb'
-require './app/validators/validators.rb'
+
 require './spec/test_model.rb'
 
 RSpec.configure do |config|
