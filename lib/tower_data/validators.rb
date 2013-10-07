@@ -4,7 +4,7 @@ module TowerData
     class EmailValidator < ActiveModel::EachValidator
       def validate_each(record, attribute, value)
         e = TowerData.validate_email(value)
-        unless e.ok
+        if e.incorrect?
           if e.corrections
             if TowerData.config.auto_accept_corrections
               record.email = e.corrections.first
