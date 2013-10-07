@@ -22,7 +22,7 @@ module TowerData
     class PhoneValidator < ActiveModel::EachValidator
       def validate_each(record, attribute, value)
         p = TowerData.validate_phone(value)
-        unless p.ok
+        if p.incorrect?
           record.errors[attribute] << "Did not pass TowerData validation: #{p.status_desc}"
         end
       end
