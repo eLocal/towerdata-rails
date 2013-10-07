@@ -17,6 +17,19 @@ module TowerData
     @config = new_conf
   end
 
+  def self.get(path, options, &block)
+    response = super(path, options, &block)
+
+    if response['status_code'].nil? || response['status_code'] != 200
+      raise BadConnectionToAPIError
+    elsif response['status_code'] == 200 && response['status_desc'] =~ /Not authorized/
+      raise TokenInvalidError
+    end
+
+    response
+  end
+
+
   def self.configure
     yield config if block_given?
     raise MustProvideTokenError, "TowerData requires a token to use the API" unless config.token
@@ -30,14 +43,8 @@ module TowerData
         email: address
       }
     }
+
     response = get('/person',opts)
-
-    if response['status_code'].nil? || response['status_code'] != 200
-      raise BadConnectionToAPIError
-    elsif response['status_code'] == 200 && response['status_desc'] =~ /Not authorized/
-      raise TokenInvalidError
-    end
-
     Email.new(response)
   end
 
@@ -49,6 +56,7 @@ module TowerData
         phone: number
       }
     }
+
     response = get('/person',opts)
     Phone.new(response)
   end
