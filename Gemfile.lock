@@ -132,6 +132,7 @@ DEPENDENCIES
   interactive_editor
   protected_attributes
   rake
+  rspec
   rspec-rails (~> 2.14.0)
   towerdata-rails!
   vcr
