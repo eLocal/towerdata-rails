@@ -5,12 +5,12 @@ require 'tower_data/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "towerdata-rails"
-  spec.version       = Towerdata::Rails::VERSION
+  spec.version       = TowerData::VERSION
   spec.authors       = ["Andrew Fallows"]
   spec.email         = ["andrew.fallows@elocal.com"]
   spec.description   = %q{Provides methods for invoking the TowerData REST API, as well as ActiveModel validators which use TowerData to verify email address and phone number}
   spec.summary       = %q{Ruby wrapper for TowerData API}
-  spec.homepage      = "www.elocal.com"
+  spec.homepage      = "http://www.github.com/eLocal/towerdata-rails"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

@@ -2,7 +2,6 @@ require 'bundler'
 Bundler.require(:default)
 
 require 'vcr'
-
 require './spec/test_model.rb'
 
 RSpec.configure do |config|

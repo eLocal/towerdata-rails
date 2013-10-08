@@ -8,7 +8,6 @@ module TowerData
   class MustProvideTokenError < StandardError; end
   class TokenInvalidError < StandardError; end
   class BadConnectionToAPIError < StandardError; end
-  class InvalidRequestError < StandardError; end
   class UnknownServerError < StandardError; end
 
   def self.config
@@ -38,7 +37,7 @@ module TowerData
       }
     }
 
-    with_valid_response('/person',opts) do |response|
+    with_valid_response('/person', opts) do |response|
       Email.new(response)
     end
   end
@@ -56,8 +55,9 @@ module TowerData
       }
     }
 
-    response = get('/person',opts)
-    Phone.new(response)
+    with_valid_response('/person', opts) do |response|
+      Phone.new(response)
+    end
   end
 
   def self.with_valid_response(url, opts, &block)
