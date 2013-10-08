@@ -26,7 +26,7 @@ TowerData requires an API token for all requests. ([Get one here](http://info.to
 
 ### Optional Config Settings
 
-*These settings are used by the Email Validator*
+**These settings are used by the Email Validator**
 * `c.show_corrections`: 
   * function: if a record is invalid, the error report will include suggested corrections
   * default: true
