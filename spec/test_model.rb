@@ -6,7 +6,7 @@ class EmailTestModel
 
   attr_accessor :email
 
-  validates :email, email: true
+  validates :email, tower_data_email: true
 end
 
 class PhoneTestModel
@@ -16,5 +16,5 @@ class PhoneTestModel
 
   attr_accessor :phone
 
-  validates :phone, phone: true
+  validates :phone, tower_data_phone: true
 end
