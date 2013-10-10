@@ -1,7 +1,7 @@
 require 'tower_data'
 module TowerData
   module Validators
-    class EmailValidator < ActiveModel::EachValidator
+    class TowerDataEmailValidator < ActiveModel::EachValidator
       def validate_each(record, attribute, value)
         e = TowerData.validate_email(value)
         if e.incorrect?
@@ -19,7 +19,7 @@ module TowerData
       end
     end
 
-    class PhoneValidator < ActiveModel::EachValidator
+    class TowerDataPhoneValidator < ActiveModel::EachValidator
       def validate_each(record, attribute, value)
         p = TowerData.validate_phone(value)
         if p.incorrect?
