@@ -75,7 +75,7 @@ describe "TowerData::Validators" do
           m = EmailTestModel.new
           m.email = 'john.doe@gmial.com'
           m.should_not be_valid
-          m.errors.messages[:email].count.should be 2
+          m.errors.messages[:email].should == ["did not pass TowerData validation: Domain cannot receive email.  Did you mean john.doe@gmail.com?"]
         end
       end
 
