@@ -11,6 +11,48 @@ describe "TowerData::Validators" do
       end
     end
 
+    it 'will allow for nil records if option set' do
+      m = EmailTestModelAllowNil.new
+      m.should be_valid
+    end
+
+    it 'will allow for blank records if option set' do
+      m = EmailTestModelAllowBlank.new
+      m.email = ''
+      m.should be_valid
+    end
+
+    it 'will not allow for nil records if option no set' do
+      m = EmailTestModel.new
+      m.should_not be_valid
+      m.errors[:email].should_not be_empty
+    end
+
+    it 'will not allow for blank records if option not set' do
+      m = EmailTestModel.new
+      m.email = ''
+      m.should_not be_valid
+      m.errors[:email].should_not be_empty
+    end
+
+    it 'will allow for a custom error message with a proc' do
+      VCR.use_cassette('validate_bad_email') do
+        m = EmailTestModelProcErrorMessages.new
+        m.email = 'bad_email_address'
+        m.should_not be_valid
+        m.errors[:email].should == ['Proc message with status Address does not have an @ sign']
+      end
+    end
+
+    it 'will allow for a custom error message with a string' do
+      VCR.use_cassette('validate_bad_email') do
+        m = EmailTestModelStringErrorMessages.new
+        m.email = 'bad_email_address'
+        m.should_not be_valid
+        m.errors[:email].should == ['String message with status']
+      end
+    end
+
     it 'rejects a record with an invalid address' do
       VCR.use_cassette('validate_bad_email') do
         m = EmailTestModel.new
@@ -65,6 +107,48 @@ describe "TowerData::Validators" do
   end
 
   context 'PhoneValidator' do
+
+    it 'will allow for nil records if option set' do
+      m = PhoneTestModelAllowNil.new
+      m.should be_valid
+    end
+
+    it 'will allow for blank records if option set' do
+      m = PhoneTestModelAllowBlank.new
+      m.phone = ''
+      m.should be_valid
+    end
+
+    it 'will not allow for nil records if option no set' do
+      m = PhoneTestModel.new
+      m.should_not be_valid
+      m.errors[:phone].should_not be_empty
+    end
+
+    it 'will not allow for blank records if option not set' do
+      m = PhoneTestModel.new
+      m.phone = ''
+      m.should_not be_valid
+      m.errors[:phone].should_not be_empty
+    end
+
+    it 'will allow for a custom error message with a proc' do
+      VCR.use_cassette('validate_bad_phone') do
+        m = PhoneTestModelProcErrorMessages.new
+        m.phone = 'notaphone'
+        m.should_not be_valid
+        m.errors[:phone].should == ['Proc message with status Invalid number - too few digits']
+      end
+    end
+
+    it 'will allow for a custom error message with a string' do
+      VCR.use_cassette('validate_bad_phone') do
+        m = PhoneTestModelStringErrorMessages.new
+        m.phone = 'notaphone'
+        m.should_not be_valid
+        m.errors[:phone].should == ['String message with status']
+      end
+    end
     it 'rejects a record with an invalid number' do
       VCR.use_cassette('validate_bad_phone') do
         m = PhoneTestModel.new
