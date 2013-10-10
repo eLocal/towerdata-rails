@@ -8,7 +8,10 @@ Gem::Specification.new do |spec|
   spec.version       = TowerData::VERSION
   spec.authors       = ["Andrew Fallows"]
   spec.email         = ["andrew.fallows@elocal.com"]
-  spec.description   = %q{Provides methods for invoking the TowerData REST API, as well as ActiveModel validators which use TowerData to verify email address and phone number}
+  spec.description   = <<-DESC
+Provides methods for invoking the TowerData REST API, as well as ActiveModel validators
+which use TowerData to verify email address and phone number
+DESC
   spec.summary       = %q{Ruby wrapper for TowerData API}
   spec.homepage      = "http://www.github.com/eLocal/towerdata-rails"
   spec.license       = "MIT"
@@ -18,10 +21,15 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "activemodel", '>3.0'
+  spec.add_dependency "activemodel", '>3.0'
+  spec.add_dependency "httparty"
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "vcr"
+  spec.add_development_dependency "webmock"
   spec.add_development_dependency "rspec"
+  spec.add_development_dependency "guard"
+  spec.add_development_dependency "guard-rspec"
+  spec.add_development_dependency "guard-bundler"
 end
