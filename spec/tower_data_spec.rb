@@ -4,7 +4,6 @@ require 'spec_helper'
 include TowerData
 
 describe "TowerData" do
-
   context 'raises errors' do
     it 'on bad responses from the API' do
 

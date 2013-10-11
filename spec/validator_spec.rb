@@ -8,6 +8,7 @@ describe "TowerData::Validators" do
     before(:each) do
       TowerData.configure do |c|
         c.token = 'XXXXXXXXXX'
+        c.only_validate_on_change = false
       end
     end
 
@@ -33,6 +34,50 @@ describe "TowerData::Validators" do
       m.email = ''
       m.should_not be_valid
       m.errors[:email].should_not be_empty
+    end
+
+    context 'only validate on change' do
+      before(:each) do
+        @m = EmailTestModelValidOnChange.new
+      end
+
+      it 'will validate on every save if option not set' do
+        stub_request(:get, /api10.towerdata.com/)
+        @m.email = 'andrew.fallows@elocal.com'
+        @m.email_changed?.should eq true
+        @m.valid?
+        @m.valid?
+
+        WebMock.should have_requested(:get, /api10.towerdata.com/).twice
+      end
+
+      it 'will not validate on unchanged if option set' do
+        TowerData.configure do |c|
+          c.only_validate_on_change = true
+        end
+
+        stub_request(:get, /api10.towerdata.com/)
+        @m.email = 'andrew.fallows@elocal.com'
+        @m.valid?
+        @m.save
+        @m.valid?
+
+        WebMock.should have_requested(:get, /api10.towerdata.com/).once
+      end
+
+      it 'will validate on changed if option set' do
+        TowerData.configure do |c|
+          c.only_validate_on_change = true
+        end
+        stub_request(:get, /api10.towerdata.com/)
+        @m.email = 'andrew.fallows@elocal.com'
+        @m.email_changed?.should eq true
+        @m.valid?
+        @m.email = 'someone.else@elocal.com'
+        @m.valid?
+
+        WebMock.should have_requested(:get, /api10.towerdata.com/).twice
+      end
     end
 
     it 'will allow for a custom error message with a proc' do

@@ -49,6 +49,30 @@ class EmailTestModelProcErrorMessages
   validates :email, tower_data_email: { message: Proc.new{|e| "Proc message with status #{e.status_desc}" } }
 end
 
+class EmailTestModelValidOnChange
+  include ActiveModel::Model
+  include ActiveModel::Validations
+  include ActiveModel::Dirty
+  include TowerData::Validators
+
+  define_attribute_methods :email
+
+  def email
+    @email
+  end
+
+  def email=(val)
+    email_will_change! unless val == @email
+    @email = val
+  end
+
+  def save
+    @changed_attributes = {}
+  end
+
+  validates :email, tower_data_email: true
+end
+
 class PhoneTestModelStringErrorMessages
   include ActiveModel::Model
   include ActiveModel::Validations

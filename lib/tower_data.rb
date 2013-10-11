@@ -133,7 +133,7 @@ module TowerData
 
   # Stores config values used in making API calls
   class Config
-    attr_accessor :token, :headers, :show_corrections, :auto_accept_corrections
+    attr_accessor :token, :headers, :show_corrections, :auto_accept_corrections, :only_validate_on_change
 
     # Create a new TowerData::Config. MUST provide a valid API token
     #
@@ -145,6 +145,7 @@ module TowerData
       @headers = headers
       @show_corrections = true
       @auto_accept_corrections = false
+      @only_validate_on_change = false
     end
   end
 end
