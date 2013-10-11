@@ -50,6 +50,36 @@ module TowerData
           end
         end
       end
+
+      private
+
+      def default_failure_message(e)
+        rv = "did not pass TowerData validation: #{e.status_desc}"
+
+        if show_corrections? && e.corrections
+          rv << ".  Did you mean #{e.corrections.join(" or ")}?"
+        end
+
+        rv
+      end
+
+      def auto_accept_corrections?
+        # could be false, so can't use ||
+        if options.include?(:auto_accept_corrections)
+          options[:auto_accept_corrections]
+        else
+          TowerData.config.auto_accept_corrections
+        end
+      end
+
+      def show_corrections?
+        # could be false, so can't use ||
+        if options.include?(:show_corrections)
+          options[:show_corrections]
+        else
+          TowerData.config.show_corrections
+        end
+      end
     end
 
     class TowerDataPhoneValidator < ActiveModel::EachValidator
@@ -60,7 +90,7 @@ module TowerData
 
         p = TowerData.validate_phone(value)
         if p.incorrect?
-          record.errors[attribute] << custom_error_message("Did not pass TowerData validation: #{p.status_desc}", p)
+          record.errors[attribute] << custom_error_message("did not pass TowerData validation: #{p.status_desc}", p)
         end
       end
     end
