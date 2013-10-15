@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    towerdata-rails (0.0.1)
+    towerdata-rails (0.0.2)
       activemodel (> 3.0)
       httparty
 

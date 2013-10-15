@@ -36,16 +36,10 @@ module TowerData
         if !TowerData.config.only_validate_on_change || record.send("#{attribute}_changed?")
           e = TowerData.validate_email(value)
           if e.incorrect?
-            if e.corrections
-              if TowerData.config.auto_accept_corrections
-                record.email = e.corrections.first
-              else
-                record.errors[attribute] << custom_error_message("Did not pass TowerData validation: #{e.status_desc}", e)
-
-                record.errors[attribute] << custom_error_message("Possible corrections: #{e.corrections}", e, :correction_message) if options[:show_corrections] || TowerData.config.show_corrections
-              end
+            if e.corrections && auto_accept_corrections?
+              record.send(:"#{attribute}=",  e.corrections.first)
             else
-              record.errors[attribute] << custom_error_message("Did not pass TowerData validation: #{e.status_desc}", e)
+              record.errors[attribute] << custom_error_message(default_failure_message(e), e)
             end
           end
         end
