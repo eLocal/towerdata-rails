@@ -62,9 +62,6 @@ This object corresponds very closely with the JSON response that comes back from
 
 After this call, `phone` will be an instance of [`TowerData::Phone`](https://github.com/eLocal/towerdata-rails/blob/master/lib/tower_data.rb#L104-L134). This wrapper class exposes all the values from the JSON returned by TowerData. Use `phone.ok` for a quick check if the phone number is valid.
 
-#### TowerData::Phone
-
-
 ### ActiveModel
 
     class ModelWithEmailAndPhone
