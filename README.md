@@ -27,11 +27,11 @@ TowerData requires an API token for all requests. ([Get one here](http://info.to
 ### Optional Config Settings
 
 **These settings are used by the Email Validator**
-* **c.show_corrections**: 
+* **c.show_corrections**:
   * function: if a record is invalid, the error report will include suggested corrections
   * default: true
 
-* **c.auto_accept_corrections**: 
+* **c.auto_accept_corrections**:
   * function: if there are any suggested corrections, the validator will take the first one (record is reported as valid
   * default: false
 
@@ -62,7 +62,16 @@ After this call, `phone` will be an instance of [`TowerData::Phone`](https://git
       validates :phone, phone: true
     end
 
+## Custom Providers
 
+Although the gem was written to be a validation wrapper for TowerData, it also supports extension through other providers.
+
+1. Create a new subclass of [`TowerData::Provider`](https://github.com/eLocal/towerdata-rails/blob/master/lib/tower_data/providers.rb#L8-L16), overriding the methods `validate_email` and `validate_phone` with whatever logic is appropriate. **NOTE:** these methods are intended to return `TowerData::Email` and `TowerData::Phone` objects. If you return something else, results may not be what you expect.
+2. Immediately after your config block, add the following line:
+
+    TowerData.provider = CustomProviderClass.new
+
+3. Run validations as normal
 
 ## Contributing
 
