@@ -72,7 +72,7 @@ module TowerData
 
   # A wrapper to the response from an email search request
   class Email
-    attr_accessor :ok, :validation_level, :address, :username, :domain, :corrections
+    attr_accessor :validation_level, :address, :username, :domain, :corrections
 
     include CommonData
 
@@ -88,9 +88,8 @@ module TowerData
   # A wrapper to the response from a phone search request
   class Phone
     include CommonData
-    attr_accessor :number, :extension, :city, :state, :new_npa,
-      :country, :county, :latitude, :longitude, :timezone, :observes_dst, :messages, :line_type,
-      :carrier
+    attr_accessor :number, :extension, :city, :state, :new_npa, :country, :county, :latitude, :longitude,
+      :timezone, :observes_dst, :messages, :line_type, :carrier
 
     # Create a new TowerData::Phone
     #

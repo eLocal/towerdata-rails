@@ -43,11 +43,27 @@ TowerData requires an API token for all requests. ([Get one here](http://info.to
 
 After this call, `email` will be an instance of [`TowerData::Email`](https://github.com/eLocal/towerdata-rails/blob/master/lib/tower_data.rb#L80-L101). This wrapper class exposes all the values from the JSON returned by TowerData. Use `email.ok` for a quick check if the email address is valid.
 
+#### TowerData::Email
+This object corresponds very closely with the JSON response that comes back from Tower Data. It has the following fields:
+
+* **status_code**:       Tower Data's code specifying the success/failure of the validation
+* **status_desc**:       A text description of the status code
+* **ok?**:               `true` if the address is considered valid, `false` otherwise
+* **validation_level**:  Level of verification used to validate address
+* **address**:           full email address
+* **username**:          stuff before the @
+* **domain**:            stuff after the @
+* **corrections**:       if the address is invalid but something similar is valid, it will be in this field
+ (e.g. suggesting `user@gmail.com` as a substitute for `user@gmial.com`)
+
 ### Phone Validation
 
     phone = TowerData.validate_phone('123-456-7890')
 
 After this call, `phone` will be an instance of [`TowerData::Phone`](https://github.com/eLocal/towerdata-rails/blob/master/lib/tower_data.rb#L104-L134). This wrapper class exposes all the values from the JSON returned by TowerData. Use `phone.ok` for a quick check if the phone number is valid.
+
+#### TowerData::Phone
+
 
 ### ActiveModel
 
