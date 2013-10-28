@@ -85,7 +85,7 @@ Although the gem was written to be a validation wrapper for TowerData, it also s
 1. Create a new subclass of [`TowerData::Provider`](https://github.com/eLocal/towerdata-rails/blob/master/lib/tower_data/providers.rb#L8-L16), overriding the methods `validate_email` and `validate_phone` with whatever logic is appropriate. **NOTE:** these methods are intended to return `TowerData::Email` and `TowerData::Phone` objects. If you return something else, results may not be what you expect.
 2. Immediately after your config block, add the following line:
 
-    TowerData.provider = CustomProviderClass.new
+    `TowerData.provider = CustomProviderClass.new`
 
 3. Run validations as normal
 
