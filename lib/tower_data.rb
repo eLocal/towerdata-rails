@@ -1,10 +1,8 @@
-require 'httparty'
+# encoding: UTF-8
 require 'json'
+require 'tower_data/providers'
 
 module TowerData
-  include HTTParty
-  base_uri 'http://api10.towerdata.com'
-
   class MustProvideTokenError < StandardError; end
   class TokenInvalidError < StandardError; end
   class BadConnectionToAPIError < StandardError; end
@@ -23,23 +21,20 @@ module TowerData
     raise MustProvideTokenError, "TowerData requires a token to use the API" unless config.token
   end
 
+  def self.provider
+    @provider ||= TowerData::Provider::TowerDataDefault.new
+  end
+
+  def self.provider=(new_prov)
+    @provider = new_prov
+  end
+
   # Submit a request with an email address, return a TowerData::Email object
   #
   # Arguments:
   #   address: (String)
   def self.validate_email(address)
-    opts = {
-      headers: @config.headers,
-      query: {
-        license: @config.token,
-        correct: 'email',
-        email: address
-      }
-    }
-
-    with_valid_response('/person', opts) do |response|
-      Email.new(response)
-    end
+    provider.validate_email(address)
   end
 
   # Submit a request with a phone number, return a TowerData::Phone object
@@ -47,32 +42,7 @@ module TowerData
   # Arguments:
   #   number: (String)
   def self.validate_phone(number)
-    opts = {
-      headers: @config.headers,
-      query: {
-        license: @config.token,
-        phone: number
-      }
-    }
-
-    with_valid_response('/person', opts) do |response|
-      Phone.new(response)
-    end
-  end
-
-  def self.with_valid_response(url, opts, &block)
-    response = get(url, opts)
-    case response.code
-    when 200
-      # All good
-    when 401, 403
-      raise TokenInvalidError
-    when 500
-      raise UnknownServerError.new("Problem with request.  Response '#{response}'")
-    else
-      raise BadConnectionToAPIError.new("Unknown status error #{response.code}: #{response}")
-    end
-    yield response
+    provider.validate_phone(number)
   end
 
   module CommonData
