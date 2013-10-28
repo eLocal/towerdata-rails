@@ -22,7 +22,7 @@ module TowerData
   end
 
   def self.provider
-    @provider ||= TowerData::Provider::TowerDataDefault.new
+    @provider ||= TowerData::TowerDataDefault.new
   end
 
   def self.provider=(new_prov)
