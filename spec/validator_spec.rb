@@ -36,6 +36,34 @@ describe "TowerData::Validators" do
       m.errors[:email].should_not be_empty
     end
 
+
+    context 'handle change only validation on object with no change methods' do
+      before(:each) do
+        @m = EmailTestModelNoChange.new
+
+        TowerData.configure do |c|
+          c.only_validate_on_change = true
+        end
+
+      end
+
+      it 'will validate on every save if option not set' do
+        stub_request(:get, /api10.towerdata.com/)
+        @m.email = 'andrew.fallows@elocal.com'
+        @m.respond_to?(:email_changed).should be_false
+        @m.valid?
+        @m.valid?
+
+        WebMock.should have_requested(:get, /api10.towerdata.com/).twice
+      end
+
+      after(:each) do
+        TowerData.configure do |c|
+          c.only_validate_on_change = false
+        end
+      end
+    end
+
     context 'only validate on change' do
       before(:each) do
         @m = EmailTestModelValidOnChange.new
