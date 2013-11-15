@@ -33,7 +33,7 @@ module TowerData
       def validate_each(record, attribute, value)
         return true if handle_nil?(record, attribute, value) || handle_blank?(record, attribute, value)
 
-        if !TowerData.config.only_validate_on_change || record.send("#{attribute}_changed?")
+        if eligible_for_validation?(record, attribute)
           e = TowerData.validate_email(value)
           if e.incorrect?
             if e.corrections && auto_accept_corrections?
@@ -46,6 +46,12 @@ module TowerData
       end
 
       private
+
+      def eligible_for_validation?(record, attribute)
+        !TowerData.config.only_validate_on_change ||
+          !record.respond_to?(:"#{attribute}_changed?") ||
+          record.send("#{attribute}_changed?")
+      end
 
       def default_failure_message(e)
         rv = "did not pass TowerData validation: #{e.status_desc}"
