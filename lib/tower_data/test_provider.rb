@@ -14,7 +14,7 @@ module TowerData
           'address'  => address,
           'domain'   => domain,
           'username' => username,
-          'ok'       => (domain == 'example.com') ? false : true
+          'ok'       => (domain == 'invalid.com') ? false : true
         }
       }
       TowerData::Email.new(response)
