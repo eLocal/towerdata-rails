@@ -102,19 +102,20 @@ module TowerData
 
   # Stores config values used in making API calls
   class Config
-    attr_accessor :token, :headers, :show_corrections, :auto_accept_corrections, :only_validate_on_change
+    attr_accessor :token, :headers, :show_corrections, :auto_accept_corrections, :only_validate_on_change, :timeout
 
     # Create a new TowerData::Config. MUST provide a valid API token
     #
     # Arguments:
     #   token: (String)
     #   headers: (Hash)
-    def initialize(token = nil, headers = { 'Content-Type' => 'application/json' })
+    def initialize(token = nil, timeout = 5, headers = { 'Content-Type' => 'application/json' })
       @token = token
       @headers = headers
       @show_corrections = true
       @auto_accept_corrections = false
       @only_validate_on_change = false
+      @timeout = timeout
     end
   end
 end

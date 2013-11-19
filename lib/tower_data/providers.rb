@@ -29,7 +29,8 @@ module TowerData
           license: TowerData.config.token,
           correct: 'email',
           email: address
-        }
+        },
+        timeout: TowerData.config.timeout
       }
 
       with_valid_response('/person', opts) do |response|
@@ -43,7 +44,8 @@ module TowerData
         query: {
           license: TowerData.config.token,
           phone: number
-        }
+        },
+        timeout: TowerData.config.timeout
       }
 
       with_valid_response('/person', opts) do |response|
