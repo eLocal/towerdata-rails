@@ -18,7 +18,7 @@ module TowerData
   class TowerDataDefault < TowerData::Provider
     include HTTParty
     base_uri 'http://api10.towerdata.com'
-    default_timeout 2
+
     def initialize
     end
 
