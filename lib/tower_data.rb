@@ -62,7 +62,8 @@ module TowerData
     def set_attributes(atts)
       unless atts.nil?
         atts.each do |k, v|
-          send(:"#{k}=", v)
+          m = :"#{k}="
+          send(m, v) if respond_to?(m) 
         end
       end
       true
