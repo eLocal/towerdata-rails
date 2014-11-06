@@ -15,6 +15,19 @@ module TowerData
         end
       end
 
+      def handle_timeout(e)
+        msg = sprintf(
+              "Timeout when validating email address...allowing it. %s: %s ",
+              e.inspect,
+              e.backtrace.join("\n")
+            )
+        if Module.const_defined? 'Rails'
+          Rails.logger.warn { msg }
+        else
+          $stderr.puts msg
+        end
+      end
+
       [:nil, :blank].each do |t|
         define_method :"handle_#{t}?" do |record, attribute, value|
           if value.send(:"#{t}?")
@@ -43,6 +56,9 @@ module TowerData
             end
           end
         end
+      rescue Net::ReadTimeout => e
+        handle_timeout(e)
+        true
       end
 
       private
@@ -92,6 +108,9 @@ module TowerData
         if p.incorrect?
           record.errors[attribute] << custom_error_message("did not pass TowerData validation: #{p.status_desc}", p)
         end
+      rescue Net::ReadTimeout => e
+        handle_timeout(e)
+        true
       end
     end
   end
